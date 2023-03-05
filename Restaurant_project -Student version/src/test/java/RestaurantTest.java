@@ -2,6 +2,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,4 +71,18 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    @Test
+    public void adding_item_that_does_not_exist_should_throw_exception(){
+        LocalTime openingTime = LocalTime.parse("10:30:00");
+        LocalTime closingTime = LocalTime.parse("22:00:00");
+        restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant.addToMenu("Soup",119);
+        restaurant.addToMenu("Vegetables", 269);
+        List<String> orderItems = new ArrayList<String>();
+        orderItems.add("Soup");
+        orderItems.add("Noodles");
+        assertThrows(itemNotFoundException.class,
+                ()->restaurant.totalOrder(orderItems));
+    }
+    
 }
