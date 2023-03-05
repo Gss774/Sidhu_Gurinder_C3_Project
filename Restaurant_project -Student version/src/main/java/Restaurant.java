@@ -1,3 +1,4 @@
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class Restaurant {
     public LocalTime openingTime;
     public LocalTime closingTime;
     private List<Item> menu = new ArrayList<Item>();
+
 
     public Restaurant(String name, String location, LocalTime openingTime, LocalTime closingTime) {
         this.name = name;
@@ -69,6 +71,25 @@ public class Restaurant {
 
     public String getName() {
         return name;
+    }
+
+    public int totalOrder(List<String> orderItems) throws itemNotFoundException {
+        int total = 0;
+        for(String item: orderItems){
+            int menuPrice = -1;
+            for(Item menuItem: menu) {
+                if(item.equals(menuItem.getName())){
+                    menuPrice = menuItem.getPrice();
+                }
+            }
+            if(menuPrice == -1){
+                throw new itemNotFoundException(item);
+            }
+            else{
+                total += menuPrice;
+            }
+        }
+        return total;
     }
 
 }
